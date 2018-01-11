@@ -1,0 +1,6 @@
+#!/usr/bin/env php
+<?php
+$phar = new Phar(__DIR__ . '/scriptris.phar');
+$phar->buildFromDirectory(__DIR__ . '/../src');
+$phar->compressFiles(Phar::GZ);
+$phar->setStub(file_get_contents(__DIR__ . '/stub.php'));
