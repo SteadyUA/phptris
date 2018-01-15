@@ -96,31 +96,34 @@ class ProcessNet extends AbstractProcess implements
 
     public function onSpawnNext(Block $block, NextQueue $nextQueue)
     {
-        $this->outputQueue->enqueue(['action' => NetAction::ACTION_SPAWN, 'block' => $this->blockToData($block)]);
-    }
-
-    private function blockToData(Block $block)
-    {
-        return [
-            't' => $block->getType(),
-            'o' => $block->getOrientation(),
-            'x' => $block->location()->x,
-            'y' => $block->location()->y,
-        ];
+        $this->enqueueBlockAction(NetAction::ACTION_SPAWN, $block);
     }
 
     public function onBlockUpdate(Block $block)
     {
-        $this->outputQueue->enqueue(['action' => NetAction::ACTION_UPDATE_BLOCK, 'block' => $this->blockToData($block)]);
+        $this->enqueueBlockAction(NetAction::ACTION_UPDATE_BLOCK, $block);
     }
 
     public function onHoldBlock(Block $block)
     {
-        $this->outputQueue->enqueue(['action' => NetAction::ACTION_HOLD, 'block' => $this->blockToData($block)]);
+        $this->enqueueBlockAction(NetAction::ACTION_HOLD, $block);
     }
 
     public function onBlockLock(Block $block)
     {
-        $this->outputQueue->enqueue(['action' => NetAction::ACTION_LOCK, 'block' => $this->blockToData($block)]);
+        $this->enqueueBlockAction(NetAction::ACTION_LOCK, $block);
+    }
+
+    private function enqueueBlockAction(int $action, Block $block = null)
+    {
+        $this->outputQueue->enqueue([
+            'action' => $action,
+            'block' => [
+                't' => $block->getType(),
+                'o' => $block->getOrientation(),
+                'x' => $block->location()->x,
+                'y' => $block->location()->y,
+            ]
+        ]);
     }
 }
