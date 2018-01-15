@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 mb_internal_encoding('UTF-8');
 
@@ -28,4 +28,9 @@ register_shutdown_function(function() {
     system("stty echo");
 });
 
-(new \Tet\Phptris())->main($argv);
+try {
+    (new \Tet\Phptris())->main($argv);
+} catch (Throwable $exception) {
+    echo 'Error: ', $exception->getMessage(), PHP_EOL;
+    echo 'File: ', $exception->getFile(), ':', $exception->getLine(), PHP_EOL;
+}

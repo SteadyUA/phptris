@@ -1,14 +1,14 @@
 #!/usr/bin/env php
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 mb_internal_encoding('UTF-8');
 
 system("stty -icanon -iutf8 -echo");
 stream_set_blocking(STDIN, false);
 
-spl_autoload_register(function($className) {
+spl_autoload_register(function ($className) {
     $classPath = str_replace('\\', '/', $className);
     $lookAt = ['Tet\\' => 'src/'];
     foreach ($lookAt as $pref => $path) {
@@ -24,12 +24,17 @@ spl_autoload_register(function($className) {
     return false;
 });
 
-register_shutdown_function(function() {
+register_shutdown_function(function () {
     system("stty echo");
 });
 
 Phar::mapPhar('src');
 
-(new \Tet\Phptris())->main($argv);
+try {
+    (new \Tet\Phptris())->main($argv);
+} catch (Throwable $exception) {
+    echo 'Error: ', $exception->getMessage(), PHP_EOL;
+    echo 'File: ', $exception->getFile(), ':', $exception->getLine(), PHP_EOL;
+}
 
-__HALT_COMPILER(); ?>
+__halt_compiler(); ?>

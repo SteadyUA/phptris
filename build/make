@@ -1,6 +1,23 @@
 #!/usr/bin/env php
 <?php
-$phar = new Phar(__DIR__ . '/scriptris.phar');
-$phar->buildFromDirectory(__DIR__ . '/../src');
-$phar->compressFiles(Phar::GZ);
-$phar->setStub(file_get_contents(__DIR__ . '/stub.php'));
+error_reporting(0);
+ini_set('display_errors', 0);
+
+$fileName = 'phptris.phar';
+
+function build($fileName) {
+    $filePath = __DIR__ . '/' . $fileName;
+    $isExists = file_exists($filePath);
+    $phar = new Phar($filePath);
+    $phar->buildFromDirectory(__DIR__ . '/../src');
+    $phar->compressFiles(Phar::GZ);
+    $phar->setStub(file_get_contents(__DIR__ . '/stub.php'));
+    echo $isExists ? 'Updated' : 'Created';
+    echo ': ', $fileName, PHP_EOL;
+}
+
+try {
+    build($fileName);
+} catch (Exception $exception) {
+    echo 'Error: ', $exception->getMessage(), PHP_EOL;
+}
