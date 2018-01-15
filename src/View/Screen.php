@@ -84,8 +84,10 @@ class Screen extends ViewNode
 
         $fieldSize = $playFieldView->getSize();
         $boxView = new PlayFieldBorderView(
-            0, 1,
-            $fieldSize->width + 2, $fieldSize->height + 2
+            0,
+            1,
+            $fieldSize->width + 2,
+            $fieldSize->height + 2
         );
 
         $center->addChild($boxView);
@@ -144,5 +146,5 @@ class Screen extends ViewNode
         $win->hide();
         $this->addChild($win);
         $this->win = $win;
-   }
+    }
 }

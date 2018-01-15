@@ -45,5 +45,4 @@ class NativePlayField extends AbstractPlayField
     {
         $this->field[$y][$x] = $type;
     }
-
 }

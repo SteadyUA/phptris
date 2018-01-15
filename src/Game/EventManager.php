@@ -24,7 +24,7 @@ class EventManager implements
     private $listeners;
     private $queue;
 
-    function __construct()
+    public function __construct()
     {
         $this->listeners = new \SplObjectStorage();
         $this->queue = new \SplQueue();

@@ -45,10 +45,10 @@ class SrsWallKick implements WallKickInterface
 
     public function getTestList($blockType, $fromOrientation, $toOrientation): array
     {
-         if (Block::TYPE_I == $blockType) {
-             return $this->testI[$fromOrientation][$toOrientation];
-         }
+        if (Block::TYPE_I == $blockType) {
+            return $this->testI[$fromOrientation][$toOrientation];
+        }
 
-         return $this->test[$fromOrientation][$toOrientation];
+        return $this->test[$fromOrientation][$toOrientation];
     }
 }

@@ -47,7 +47,7 @@ class BlockPreviewMini extends BlockView
         }
         $text1 = '';
         $text2 = '';
-        for ($x = 0; $x < $this->block->getWidth(); $x ++){
+        for ($x = 0; $x < $this->block->getWidth(); $x ++) {
             $up = isset($set[0]) ? isset($set[0][$x]) : isset($set[1][$x]);
             $down = isset($set[0]) ? isset($set[1][$x]): isset($set[2][$x]);
             if ($up) {

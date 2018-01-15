@@ -25,14 +25,21 @@ class NextQueue
      */
     protected $factory;
 
-    public function __construct(RandomizerInterface $random, $length, AbstractBlockFactory $factory)
+    /**
+     * NextQueue constructor.
+     * @param RandomizerInterface $random
+     * @param int $length
+     * @param AbstractBlockFactory $factory
+     * @throws \Exception
+     */
+    public function __construct(RandomizerInterface $random, int $length, AbstractBlockFactory $factory)
     {
         $this->factory = $factory;
         $this->random = $random;
         $this->length = $length;
         $this->queue = new SplDoublyLinkedList();
 
-        for ($i = 0; $i < $length; $i ++ ) {
+        for ($i = 0; $i < $length; $i ++) {
             $this->queue->push($this->makeNextBlock());
         }
     }
@@ -42,6 +49,10 @@ class NextQueue
         return $this->length;
     }
 
+    /**
+     * @return Block
+     * @throws \Exception
+     */
     public function getNext(): Block
     {
         $this->queue->push($this->makeNextBlock());
@@ -60,6 +71,10 @@ class NextQueue
         return $this->queue->offsetGet($num);
     }
 
+    /**
+     * @return Block
+     * @throws \Exception
+     */
     private function makeNextBlock(): Block
     {
         return $this->factory->get($this->random->value());

@@ -20,5 +20,4 @@ class Frame
         $this->char = new Vector(new Vector(''));
         $this->context = new Vector(new Vector(''));
     }
-
 }
