@@ -42,15 +42,11 @@ class Config
     const MAX_FRAMES = 60;
 
     /**
-     * @param string $fileName
+     * @param array $data
      * @throws \Exception
      */
-    public function read($fileName)
+    public function setFromArray(array $data)
     {
-        $data = parse_ini_file($fileName);
-        if (false === $data) {
-            throw new \Exception('Config file not found.');
-        }
         foreach ($data as $key => $value) {
             $this->{$key} = $value;
         }
@@ -108,6 +104,7 @@ class Config
             case 'native':
                 return new NativePlayField($width, $height);
         }
+
         throw new \Exception('Unknown line clear gravity: ' . $this->clear);
     }
 
@@ -123,6 +120,7 @@ class Config
             case 'follow':
                 return new FollowSpawn($field);
         }
+
         throw new \RuntimeException('Unknown spawn location: ' . $this->spawn);
     }
 
@@ -204,6 +202,7 @@ class Config
         if ($min > $max) {
             throw new \RuntimeException('Invalid minimal delay');
         }
+
         return $min;
     }
 
