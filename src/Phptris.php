@@ -1,6 +1,7 @@
 <?php
 namespace Tet;
 
+use Tet\Argument\ArgumentSpec;
 use Tet\Game\Config\Config;
 use Tet\Game\InitStatus;
 use Tet\Input\Input;
@@ -10,6 +11,7 @@ use Tet\Stage\AbstractChain;
 use Tet\Stage\ClientInitChain;
 use Tet\Stage\LanGameChain;
 use Tet\Stage\ServerInitChain;
+use Tet\Stage\ShowHelpChain;
 use Tet\Stage\SingleGameChain;
 use Tet\Stage\TestGameChain;
 
@@ -22,6 +24,10 @@ class Phptris
 
     protected function detectMode(array $argv): AbstractChain
     {
+        $spec = $this->getArgumentSpec();
+
+        return new ShowHelpChain($spec);
+
         $mode = $argv[1] ?? '';
 
         $cfg = new Config();
@@ -53,20 +59,20 @@ class Phptris
         return new SingleGameChain($cfg, $in, $out);
     }
 
-    protected function params()
+    private function getArgumentSpec(): ArgumentSpec
     {
-        $argParser = new Argument\Specificator();
+        $spec = new ArgumentSpec();
 
-        $argParser->command('', '')
+        $spec->command('', '')
             ->optionalGroup('options');
-        $argParser->command('start', 'Start network game')
+        $spec->command('start', 'Start network game')
             ->optionalArg('port', 'port')
             ->optionalGroup('options');
-        $argParser->command('connect', 'Connect to the network game')
+        $spec->command('connect', 'Connect to the network game')
             ->requiredArg('addr', 'addr')
             ->optionalArg('port', 'port');
 
-        $group = $argParser->group('options', 'Options');
+        $group = $spec->group('options', 'Options');
         $group->optionOneOf('spawn', 'Spawn position')
             ->value('follow', '')
             ->value('center', '')
@@ -76,15 +82,16 @@ class Phptris
             ->value('cultris2', 'Cultris 2 wall kick logic')
             ->value('nes', 'No wall kick. Like Nintendo tetris')
             ->default('srs');
-        $group->separator();
         $group->option('cols', 'Playfield cells wide')
             ->argument('amount')
             ->range(5, 20)
             ->default(10);
 
-        $argParser->argument('addr', 'Network ip address');
-        $argParser->argument('port', 'Network port number');
-        $argParser->argument('amount', 'Integer amount of value');
-        $argParser->argument('frames', 'Integer amount of speed. 1 frame = 1/60 second.');
+        $spec->argument('addr', 'Network ip address');
+        $spec->argument('port', 'Network port number');
+        $spec->argument('amount', 'Integer amount of value');
+        $spec->argument('frames', 'Integer amount of speed. 1 frame = 1/60 second.');
+
+        return $spec;
     }
 }
