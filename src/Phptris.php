@@ -24,9 +24,9 @@ class Phptris
 
     protected function detectMode(array $argv): AbstractChain
     {
-        $spec = $this->getArgumentSpec();
-
-        return new ShowHelpChain($spec);
+        if (in_array('--help', $argv)) {
+            return new ShowHelpChain();
+        }
 
         $mode = $argv[1] ?? '';
 
@@ -57,41 +57,5 @@ class Phptris
         }
 
         return new SingleGameChain($cfg, $in, $out);
-    }
-
-    private function getArgumentSpec(): ArgumentSpec
-    {
-        $spec = new ArgumentSpec();
-
-        $spec->command('', '')
-            ->optionalGroup('options');
-        $spec->command('start', 'Start network game')
-            ->optionalArg('port', 'port')
-            ->optionalGroup('options');
-        $spec->command('connect', 'Connect to the network game')
-            ->requiredArg('addr', 'addr')
-            ->optionalArg('port', 'port');
-
-        $group = $spec->group('options', 'Options');
-        $group->optionOneOf('spawn', 'Spawn position')
-            ->value('follow', '')
-            ->value('center', '')
-            ->default('follow');
-        $group->optionOneOf('kick', 'Wall kick logic')
-            ->value('srs', 'Super Rotation System wall kick')
-            ->value('cultris2', 'Cultris 2 wall kick logic')
-            ->value('nes', 'No wall kick. Like Nintendo tetris')
-            ->default('srs');
-        $group->option('cols', 'Playfield cells wide')
-            ->argument('amount')
-            ->range(5, 20)
-            ->default(10);
-
-        $spec->argument('addr', 'Network ip address');
-        $spec->argument('port', 'Network port number');
-        $spec->argument('amount', 'Integer amount of value');
-        $spec->argument('frames', 'Integer amount of speed. 1 frame = 1/60 second.');
-
-        return $spec;
     }
 }

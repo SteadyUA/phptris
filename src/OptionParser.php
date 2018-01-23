@@ -42,4 +42,9 @@ class OptionParser
 
         return $result;
     }
+
+    public function getUnknown()
+    {
+        return $this->unknownOptions;
+    }
 }
