@@ -31,7 +31,7 @@ register_shutdown_function(function () {
 Phar::mapPhar('src');
 
 try {
-    (new \Tet\Phptris())->main($argv);
+    (new \Tet\App())->main($argv);
 } catch (Throwable $exception) {
     echo 'Error: ', $exception->getMessage(), PHP_EOL;
     echo 'File: ', $exception->getFile(), ':', $exception->getLine(), PHP_EOL;

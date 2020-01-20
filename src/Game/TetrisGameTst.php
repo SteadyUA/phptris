@@ -36,7 +36,7 @@ class TetrisGameTst extends TetrisGame
         $case = array_shift($this->caseList);
         $this->activeBlock = $this->factory->get($case['type']);
         $this->activeBlock->setOrientation($case['orientation']);
-        foreach ($case['data'] as $y => $line) {
+        foreach ($case['test-data'] as $y => $line) {
             foreach (str_split($line) as $x => $char) {
                 if ($char == '@' || $char == '+') {
                     $this->activeBlock->location()->set($x, $y);

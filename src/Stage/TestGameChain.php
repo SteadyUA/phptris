@@ -58,11 +58,11 @@ class TestGameChain extends AbstractChain
                 $case = [
                     'type' => (int) substr($line, 1, 1),
                     'orientation' => (int) substr($line, 2, 1),
-                    'data' => [],
+                    'test-data' => [],
                 ];
                 continue;
             }
-            $case['data'][] = $line;
+            $case['test-data'][] = $line;
         }
         if ($case) {
             $caseList[] = $case;
